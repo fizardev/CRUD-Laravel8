@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Data Barang')
 @section('content')
+    <div class="mt-4">
+        <h1 class="float-left" style="margin-top: -5px">List Barang</h1>
+        <button class="btn btn-primary float-right">[+] Tambah Barang</button>
+    </div>
     <div class="wrapper">
-        <h1>List Barang</h1>
-
         @if (session('success'))
             <div class="alert alert-success">
                 <p>{{ session('success') }}</p>
@@ -30,19 +32,33 @@
                     <th scope="col">Jenis Barang</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Jumlah</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($barang as $b)
-
+                @foreach ($barang as $i => $b)
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <th scope="row">{{ ++$i }}</th>
+                        <td valign="center"><img src="{{ asset('images/' . $b->gambar) }}" width="100" height="50"
+                                style="object-fit: cover; object-position: center;"></td>
+                        <td valign="center">{{ $b->kode_barang }}</td>
+                        <td valign="center">{{ $b->nama_barang }}</td>
+                        <td valign="center">{{ $b->jenis_barang }}</td>
+                        <td valign="center">{{ $b->harga }}</td>
+                        <td valign="center">{{ $b->jumlah }}</td>
+                        <td valign="center">
+                            <a href="{{ route('barang.edit', $b->id_barang) }}">Edit</a>
+                            <form action="{{ route('barang.destroy', $b->id_barang) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-link">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        {{ $barang->links() }}
     </div>
 @endsection
