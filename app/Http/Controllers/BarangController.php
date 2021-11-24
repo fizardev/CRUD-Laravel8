@@ -11,7 +11,7 @@ class BarangController extends Controller
 
     public function index()
     {
-        $barang = DB::table('data_barang_20200120039')->paginate(6);
+        $barang = DB::table('data_barang_20200120039')->paginate(4);
 
         return view('index', ['barang' => $barang]);
     }
@@ -111,7 +111,7 @@ class BarangController extends Controller
                 'gambar' => $imageName,
             ]
         );
-        return back()->with('success', ' Barang baru berhasil dibuat.');
+        return back()->with('success', ' Barang berhasil diedit.');
     }
 
     /**
@@ -122,6 +122,10 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = DB::table('data_barang_20200120039')->where('id_barang', $id)->first();
+        File::delete('images/' . $barang->gambar);
+        DB::table('data_barang_20200120039')->where('id_barang', $id)->delete();
+
+        return back()->with('success', 'Barang berhasil didelete');
     }
 }

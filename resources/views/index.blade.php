@@ -1,10 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Data Barang')
 @section('content')
-    <div class="mt-4">
-        <h1 class="float-left" style="margin-top: -5px">List Barang</h1>
-        <button class="btn btn-primary float-right">[+] Tambah Barang</button>
-    </div>
     <div class="wrapper">
         @if (session('success'))
             <div class="alert alert-success">
@@ -21,6 +17,10 @@
                 </ul>
             </div>
         @endif
+        <div class="mt-4">
+            <h1 class="float-left" style="margin-top: -5px">List Barang</h1>
+            <a href="{{ route('barang.create') }}" class="btn btn-primary float-right">[+] Tambah Barang</a>
+        </div>
 
         <table class="table table-striped">
             <thead>
@@ -47,8 +47,8 @@
                         <td valign="center">{{ $b->harga }}</td>
                         <td valign="center">{{ $b->jumlah }}</td>
                         <td valign="center">
-                            <a href="{{ route('barang.edit', $b->id_barang) }}">Edit</a>
-                            <form action="{{ route('barang.destroy', $b->id_barang) }}">
+                            <a href="{{ route('barang.edit', $b->id_barang) }}" class="btn btn-link">Edit</a>
+                            <form action="{{ route('barang.destroy', $b->id_barang) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-link">Delete</button>
